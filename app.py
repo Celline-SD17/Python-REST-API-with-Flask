@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 #Home
 @app.route('/')
-def index():
+def Home():
     return jsonify({"message": "Welcome to the Inventory Management System"}), 200
 
 #Fetching all items
