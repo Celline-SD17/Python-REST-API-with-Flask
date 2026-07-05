@@ -15,9 +15,22 @@ def view_item():
 #Add Items
 def add_item():
     barcode = input("Enter the item barcode: ")
-    price = float(input("Enter the item price: "))
-    stock = int(input("Enter the item stock: "))
+    response = requests.get(f"{BASE_URL}/product/{barcode}")
+    if response.status_code != 200:
+        print("Product not found in OpenFoodFacts API.")
+        return
+    product= response.json()
+    print("\nProduct found.")
+    print(f"Name: {product['product_name']}")
+    print(f"Brand: {product['brand']}")
+    print(f"ingredients: {product['ingredients']}")
 
+    choice = input("\nAdd this product to inventory? (y/n): ").lower()
+    if choice != "y":
+        print("Product not added.")
+        return
+    price = float(input("Enter the selling price: "))
+    stock = int(input("Enter the stock quantity: "))
     data = {
         "barcode": barcode,
         "price": price,
